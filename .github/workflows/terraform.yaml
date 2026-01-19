@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Azure Login
+      - name: Azure Login (OIDC)
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.ARM_CLIENT_ID }}
@@ -30,6 +30,8 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./modules
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: ./modules
