@@ -10,19 +10,20 @@ resource "azurerm_resource_group" "rg_demo" {
 #   location = "eastus"
 # }
 
-# 1) Storage Account (unique name!)
-resource "azurerm_storage_account_test_123321" "st_demo" {
-  name                     = "st${replace(azurerm_resource_group.rg_demo.name, "-", "")}01" # adjust if needed to meet naming rules
+
+# Storage Account (must be globally unique, all lowercase, 3–24 chars)
+resource "azurerm_storage_account" "st_demo" {
+  name                     = "stammaddemo1234"  # <-- change to a globally unique, lowercase name
   resource_group_name      = azurerm_resource_group.rg_demo.name
   location                 = azurerm_resource_group.rg_demo.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  # Optional good practices
   allow_blob_public_access = false
   min_tls_version          = "TLS1_2"
+
   tags = {
-    env = "dev"
+    env   = "dev"
     owner = "terraform"
   }
 }
