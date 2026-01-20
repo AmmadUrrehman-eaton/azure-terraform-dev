@@ -11,16 +11,18 @@ resource "azurerm_resource_group" "rg_demo" {
 # }
 
 
-# Storage Account (must be globally unique, all lowercase, 3–24 chars)
+
 resource "azurerm_storage_account" "st_demo" {
-  name                     = "stammaddemo1234"  # <-- change to a globally unique, lowercase name
+  name                     = "stammaddemo1234"  # must be globally unique, lowercase, 3–24 chars
   resource_group_name      = azurerm_resource_group.rg_demo.name
   location                 = azurerm_resource_group.rg_demo.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  allow_blob_public_access = false
-  min_tls_version          = "TLS1_2"
+  # Removed: allow_blob_public_access (not supported in your provider)
+  # Optional hardening that is supported:
+  min_tls_version              = "TLS1_2"
+  public_network_access_enabled = true
 
   tags = {
     env   = "dev"
