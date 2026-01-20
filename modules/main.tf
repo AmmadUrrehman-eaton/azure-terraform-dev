@@ -12,9 +12,14 @@ resource "azurerm_storage_account" "st_demo" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+
+# Explicitly disallow public blob access (required by your policy)
+  allow_nested_items_to_be_public = false
+
+
   # Removed unsupported "allow_blob_public_access"
   min_tls_version                = "TLS1_2"
-  public_network_access_enabled  = true
+  public_network_access_enabled  = false
 
   tags = {
     env   = "dev"
