@@ -39,8 +39,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Setup Azure CLI
-        uses: azure/setup-azurecli@v3
+      
 
 
       - name: Azure Login (OIDC)
