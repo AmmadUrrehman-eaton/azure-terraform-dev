@@ -18,6 +18,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+
+      
+      # Debug: prove the runner sees the same files you see locally
+      - name: Show working directory & files
+        run: |
+          pwd
+          echo "List modules dir:"
+          ls -la ./modules
+          echo "---- head of network.tf ----"
+          head -n 40 ./modules/network.tf || true
+          echo "---- head of outputs.tf ----"
+          head -n 40 ./modules/outputs.tf || true
+
+
+
+      # Your runner needs Node & az for the actions (you already installed these, but keeping them is safe)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Azure CLI
+        uses: azure/setup-azurecli@v3
+
+
       - name: Azure Login (OIDC)
         uses: azure/login@v2
         with:
@@ -28,9 +53,22 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+
+      # New: will fail fast if Terraform can't parse/load your files  
+      - name: Terraform Validate
+        run: terraform validate -no-color
+        working-directory: ./modules
+
+
       - name: Terraform Init
         run: terraform init
         working-directory: ./modules
+
+        
+      - name: Terraform Plan
+        run: terraform plan -no-color
+        working-directory: ./modules
+
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
