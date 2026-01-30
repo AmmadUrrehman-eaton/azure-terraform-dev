@@ -22,3 +22,4 @@ output "private_dns_zone_appservice" {
   description = "Private DNS zone name used for App Service/Function private endpoints"
   value       = azurerm_private_dns_zone.appservice.name
 }
+``

@@ -1,3 +1,8 @@
+variable "create_rg" {
+  type        = bool
+  description = "If true, create the resource group. If false, read an existing RG."
+  default     = false
+}
 
 variable "location" {
   type        = string
@@ -7,7 +12,7 @@ variable "location" {
 
 variable "rg_name" {
   type        = string
-  description = "Existing resource group name where networking will be deployed"
+  description = "Resource group name where networking will be deployed"
   default     = "rg-terraform-demo-dev"
 }
 
@@ -47,15 +52,12 @@ variable "subnet_pe_prefix" {
   default     = ["10.50.2.0/24"]
 }
 
-# Private DNS zone names for App Service/Function private endpoints
-# Web Apps / Function Apps use azurewebsites.net as the base; PE uses privatelink.azurewebsites.net
 variable "appservice_privatedns_zone" {
   type        = string
   description = "Private DNS zone for App Service/Function private endpoints"
   default     = "privatelink.azurewebsites.net"
 }
 
-# Optional tags
 variable "tags" {
   type        = map(string)
   description = "Common tags"
